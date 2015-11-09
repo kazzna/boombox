@@ -19,7 +19,7 @@ object Head {
   implicit def instance[I]: Comonad[({type l[a] = Head[I, a]})#l] =
     new Comonad[({type l[a] = Head[I, a]})#l] {
       override def copoint[A](p: Head[I, A]) =
-        p.f(Maybe.empty)
+        p.f(Maybe.just(p.i))
 
       override def cobind[A, B](fa: Head[I, A])(k: Head[I, A] => B) =
         Head(fa.i, m => k(Head(m.getOrElse(fa.i), fa.f)))
